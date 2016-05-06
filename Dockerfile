@@ -3,7 +3,7 @@ FROM nginx
 EXPOSE 80
 COPY . /usr/share/nginx/html
 
-ENV HOST=api.navitia.io
+ENV MAIN_HOST=api.navitia.io
 ENV NAVITIA=http://api.navitia.io/v1/
 ENV TYR=http://tyr.navitia.io/v0/
 ENV KEY="your_navitia_io_key"

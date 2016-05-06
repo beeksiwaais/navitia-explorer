@@ -1,14 +1,14 @@
 {
     "environnements": {
-        "{{HOST}}": {
-            "url" : "{{NAVITIA}}",
-            "key" : "{{KEY}}",
-            "tyr" : "{{TYR}}"
+        "${MAIN_HOST}": {
+            "url" : "${NAVITIA}",
+            "key" : "${KEY}",
+            "tyr" : "${TYR}"
         }
     },
     "default" : {
-        "environnement": "{{HOST}}",
-        "coverage": "{{COVERAGE}}f"
+        "environnement": "${MAIN_HOST}",
+        "coverage": "${COVERAGE}"
     },
     "safe_mode" : "yes"
 }
