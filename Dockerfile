@@ -10,4 +10,6 @@ ENV TYR=http://tyr.navitia.io/v0/
 ENV KEY="your_navitia_io_key"
 ENV COVERAGE="your_coverage"
 
-CMD /bin/bash -c "envsubst < /code/params.tmpl > /code/params.json && python -m http.server"
+RUN /bin/bash -c "envsubst < /code/params.tmpl > /code/params.json"
+
+CMD python -m http.server
