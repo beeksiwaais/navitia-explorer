@@ -18,6 +18,10 @@ var menu={
             title:"itinéraire"
         },
         {
+          name:"isochron",
+          title:"isochrone"
+        },
+        {
             name:"ptref",
             title:"Exploration"
         },
@@ -41,7 +45,7 @@ var menu={
 };
 
 
-menu.show_menu = function(container) {    
+menu.show_menu = function(container) {
     t=extractUrlParams();
     ws_name = (t["ws_name"])?t["ws_name"]:"";
     coverage = (t["coverage"])?t["coverage"]:"";
@@ -49,7 +53,7 @@ menu.show_menu = function(container) {
     if ( (ws_name=="") || (coverage=="")) {
         $.getJSON('./params.json', function(params) {
             ws_name = (ws_name == "") ? params.default.environnement : ws_name;
-            coverage = (coverage == "") ? params.default.coverage : coverage;                
+            coverage = (coverage == "") ? params.default.coverage : coverage;
             str = "<input type='hidden' name='ws_name' id='ws_name' value='"+ws_name+"' />";
             str += "<input type='hidden' name='coverage' id='coverage' value='"+coverage+"' />";
             document.getElementById(container).innerHTML = str;
@@ -64,7 +68,7 @@ menu.show_menu = function(container) {
         document.getElementById(container).innerHTML=str;
         $.getJSON('./params.json', function(params) {
             str="";
-            token = (token == "") ? params.environnements[ws_name].key : token;                
+            token = (token == "") ? params.environnements[ws_name].key : token;
             str += "<input type='hidden' name='token' id='token' value='"+token+"' />";
             str += "<input type='hidden' name='navitia_api' id='navitia_api' value='"+params.environnements[ws_name].url+"' />";
             document.getElementById("params_div").innerHTML = str;
