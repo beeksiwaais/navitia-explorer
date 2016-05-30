@@ -9,8 +9,8 @@ function onload_isochron() {
   init_date();
   document.getElementById("from").value = (t["from"])?t["from"]:"";
   document.getElementById("from_text").value = (t["from_text"])?t["from_text"]:"";
-  document.getElementById("max_duration").value = (t["max_duration"])?t["max_duration"]:"";
-  document.getElementById("min_duration").value = (t["min_duration"])?t["min_duration"]:"";
+  document.getElementById("max_duration").value = (t["max_duration"])?t["max_duration"]:"1200";
+  document.getElementById("min_duration").value = (t["min_duration"])?t["min_duration"]:"0";
   document.getElementById("metasystem").checked = (t["metasystem"])?t["metasystem"]=="on":false;
   document.getElementById("metasystem_token").value = (t["metasystem_token"])?t["metasystem_token"]:"";
 
@@ -24,7 +24,7 @@ function onload_isochron() {
     map.on('click', onMapClick);
     L.control.scale().addTo(map);
 
-    if (document.getElementById("max_duration").value!="") {doIsochron();}
+    if (document.getElementById("from").value!="") {doIsochron();}
 }
 
 function init_date(sdate, sheure){
@@ -90,23 +90,27 @@ function doIsochron(){
 var map;
 var popup = L.popup();
 
+  $(function() {
+    $("#date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+  });
+
 $(function() {
-$( "#slider-range" ).slider({
+  var min_s = $('#min_duration');
+  var max_s = $('#max_duration');
+  console.log(max_s.val());
+var slider = $( "#slider-range" ).slider({
     range: true,
     min: 0,
     max: 3600,
-    values: [ 0, 0 ],
-    slide: function( event, ui ) {
+    values: [min_s.val(), max_s.val()],
+    slide: function ( event, ui ) {
       $( "#min_duration" ).val(ui.values[0]);
       $( "#max_duration" ).val(ui.values[1]);
     }
   });
-  $( "#min_duration" ).val( "$" + $( "#slider-range" ).slider("values", 0 ));
-  $( "#max_duration" ).val( "$" + $( "#slider-range" ).slider("values", 1 ));
-});
-
-$(function() {
-  $( "#date" ).datepicker();
+  $('#min_duration, #max_duration').on('keyup', function(event) {
+      slider.slider("values", [min_s.val(), max_s.val()]);
+    });
 });
 
 $(document).ready(function(){

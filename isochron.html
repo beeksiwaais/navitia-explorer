@@ -29,8 +29,9 @@
                 heure : <input type="texte" id="time" name="time" size="1"><br>
               </td>
               <td  width="370px">
-                durée min : <input type="texte" id="min_duration" name="min_duration" size="2" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                durée max : <input type="texte" id="max_duration" name="max_duration" size="2" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <label for="duration">Durée : </label>
+                <input id="min_duration" name="min_duration" size="1" >  <label >s - </label>
+                <input id="max_duration" name="max_duration" size="1" >  <label >s </label>
                 <div id="slider-range" ></div>
               </td>
               <td width="410px" align="right" valign="50%">
@@ -77,6 +78,5 @@
   <script type="text/javascript" src="./assets/js/lib.js"></script>
   <script type="text/javascript" src="./assets/js/conversion.js"></script>
   <script type="text/javascript" src="./assets/js/isochron.js"></script>
-  <script type="text/javascript" src="./assets/js/slider.js"></script>
 </body>
 </html>
