@@ -13,7 +13,7 @@ ptref = function() {
             navitia_call="coverage/"+coverage+uri+"&count=100";
             this.object_type = "places_nearby";
         } else {
-            navitia_call="coverage/"+coverage+uri+"&count=10";
+            navitia_call="coverage/"+coverage+uri+"&count=1000";
             nav_params = uri.split("/");
             for (i = nav_params.length-1; i >=0; i--) {
                 nav_param = nav_params[i];
