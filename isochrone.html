@@ -1,0 +1,82 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="./assets/css/global.css" />
+    <link rel="stylesheet" href="./assets/leaflet_0.7.7/leaflet.css" />
+    <link rel="stylesheet" href="./assets/jquery-ui.js_1.11.4/jquery-ui.css">
+</head>
+
+<body onload="onload_isochrone()">
+  <div id="params_div"></div>
+  <form name="form">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Navitia Explorer</a>
+        </div>
+        <div id="menu_div">    </div>
+      </div>
+    </nav>
+    <div id="params1" style="margin:0px;padding:0px;">
+      <table>
+          <tr>
+            <td width="310px">
+                <label for="from_text">Départ : </label>
+                <input id="from_text" name="from_text" type="text">      <input id="from" name="from" type="hidden">
+              </td>
+              <td  width="300px" valign="top">
+                date : <input type="texte" id="date" name="date" size="5"><br>
+                heure : <input type="texte" id="time" name="time" size="1"><br>
+              </td>
+              <td  width="370px">
+                <label for="duration">Durée : </label>
+                <input id="min_duration" name="min_duration" size="1" >  <label >s - </label>
+                <input id="max_duration" name="max_duration" size="1" >  <label >s </label>
+                <div id="slider-range" ></div>
+              </td>
+              <td width="410px" align="right" valign="50%">
+                <div id="isochrones" style="color:#ff0000"></div>
+              </td>
+            </tr>
+          </table>
+          <h3 id="toggle_other_params">Paramètres avancés</h3>
+          <table id="other_params" hidden>
+              <tr>
+                  <td  valign="top"  style="font-size:10px">
+                      meta-système <input type="checkbox" id="metasystem" name="metasystem" value="on"> <br>
+                      token méta-système: <input type="text" id="metasystem_token" name="metasystem_token">
+                  </td>
+              </tr>
+          </table>
+          <table>
+              <tr>
+                  <td colspan="3" align="center">
+                      <input type="button" value="Recherche" onclick="document.forms[0].submit();"> &nbsp;</input>
+                  </td>
+              </tr>
+          </table>
+      </div>
+        <h1>Isochrones : recherche d'isochrone</h1>
+        <table width="100%" height="600px">
+          <tr>
+              <td width="50%">
+          <div id="map"  style="height: 100%"></div>
+              </td>
+          </tr>
+        </table>
+  </form>
+  <div id="footer" class="footer">
+      github: <a href="https://github.com/canaltp/navitia-explorer">canaltp/navitia-explorer</a><br/>
+      <a href="http://www.navitia.io/"><img src='./assets/img/Navitia_logo.png'></a>
+      <a href="http://www.canaltp.fr/"><img src='./assets/img/canaltp_logo.png' ></a>
+  </div>
+  <script type="text/javascript" src="./assets/jquery/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="./assets/jquery-ui.js_1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="./assets/leaflet_0.7.7/leaflet.js"></script>
+  <script type="text/javascript" src="./assets/js/shortcut.js"></script>
+  <script type="text/javascript" src="./assets/js/menu.js"></script>
+  <script type="text/javascript" src="./assets/js/lib.js"></script>
+  <script type="text/javascript" src="./assets/js/conversion.js"></script>
+  <script type="text/javascript" src="./assets/js/isochrone.js"></script>
+</body>
+</html>
