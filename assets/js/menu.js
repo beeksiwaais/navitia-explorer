@@ -18,7 +18,7 @@ var menu={
             title:"itinéraire"
         },
         {
-          name:"isochron",
+          name:"isochrone",
           title:"isochrone"
         },
         {

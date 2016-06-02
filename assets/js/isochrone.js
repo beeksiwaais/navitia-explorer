@@ -2,7 +2,7 @@ $("#toggle_other_params").click(function(){
        $("#other_params").toggle();
 });
 
-function onload_isochron() {
+function onload_isochrone() {
   menu.show_menu("menu_div", ws_name, coverage);
   t=extractUrlParams();
 
@@ -24,7 +24,7 @@ function onload_isochron() {
     map.on('click', onMapClick);
     L.control.scale().addTo(map);
 
-    if (document.getElementById("from").value!="") {doIsochron();}
+    if (document.getElementById("from").value!="") {doIsochrone();}
 }
 
 function init_date(sdate, sheure){
@@ -60,31 +60,32 @@ function onMapClick(e) {
         .openOn(map);
 }
 
-function doIsochron(){
+function doIsochrone(){
   var url="";
     url+="coverage/"+document.getElementById("coverage").value + "/";
-    url+="isochrons"+"?from="
+    url+="isochrones"+"?from="
     url+=document.getElementById("from").value
     url+="&datetime="+natural_str_to_iso(document.getElementById("date").value,document.getElementById("time").value);
     url+="&max_duration="+document.getElementById("max_duration").value;
     url+="&min_duration="+document.getElementById("min_duration").value;
-    callNavitiaJS(document.getElementById("ws_name").value, url, '', showIsochrons);
+    callNavitiaJS(document.getElementById("ws_name").value, url, '', showIsochrones);
   }
 
-  function showIsochrons(response){
+  function showIsochrones(response){
     var str="";
     if (response.message) {
       str+=response.message;
     } else if (response.error) {
+      str+=response.error.id;
       str+=response.error.message;
     } else {
-      var isochron = response.isochrons[0].geojson;
+      var isochrone = response.isochrones[0].geojson;
       var myLayer = L.geoJson().addTo(map);
-      myLayer.addData(isochron);
+      myLayer.addData(isochrone);
       var newBounds = myLayer.getBounds();
       map.fitBounds(newBounds);
     }
-    document.getElementById('isochrons').innerHTML=str;
+    document.getElementById('isochrones').innerHTML=str;
   }
 
 var map;
