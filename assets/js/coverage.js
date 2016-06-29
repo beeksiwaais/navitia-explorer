@@ -23,7 +23,7 @@ function print_coveragelist_status(cov_list){
     selected_region=""
     var now = new Date();
     str="<table border='1px'>";
-    str+="<tr><th>Region</th><th>Status</th><th>Production Start</th><th>Production End</th><th>Publication Date</th><th>Last Load</th><th>Maps</th></tr>";
+    str+="<tr><th>Region</th><th>Status</th><th>Production Start</th><th>Production End</th><th>Dataset Date</th><th>Publication Date</th><th>Last Load</th><th>Maps</th></tr>";
     for (var i in cov_list){
         r=cov_list[i];
         var myDate = r.end_production_date?IsoToJsDate(r.end_production_date):now;
@@ -36,6 +36,7 @@ function print_coveragelist_status(cov_list){
         str+="<td>";
         str+="<span style='" + DateToColor(myDate) + "'>" + r.end_production_date + " (" + dateDiff(myDate,now)+")</span>";
         str+="</td>";
+        str+="<td>" + NavitiaDateTimeToString(r.dataset_created_at, 'yyyymmdd hh:nn') +"</td>";
         str+="<td>" + NavitiaDateTimeToString(r.publication_date, 'yyyymmdd hh:nn') +"</td>";
         str+="<td align='center'>" + NavitiaDateTimeToString(r.last_load_at, 'yyyymmdd hh:nn') +"</td>";
         span = "<span id='showonmap_" + r.region_id + "' onClick='show_coverage_on_map(\""+r.region_id+"\");' class='span_link' style='display:none;'><img src='./assets/img/map_pin.png' height='20' width='13'></span>";
