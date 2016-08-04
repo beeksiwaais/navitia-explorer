@@ -22,8 +22,13 @@ function sort_compare_coverage(cov1, cov2){
 function print_coveragelist_status(cov_list){
     selected_region=""
     var now = new Date();
-    str="<table border='1px'>";
-    str+="<tr><th>Region</th><th>Status</th><th>Production End</th><th>Maps</th></tr>";
+    str = "<table border='1px'><tr>";
+    str += "<th>Region</th>";
+    str += "<th>Map</th>";
+    str += "<th>Production End</th>";
+    str += "<th>Address sources</th><th>POI sources</th>";
+    str += "<th>Status</th>";
+    str += "</tr>";
     for (var i in cov_list){
         r=cov_list[i];
         var myDate = r.end_production_date?IsoToJsDate(r.end_production_date):now;
@@ -31,17 +36,20 @@ function print_coveragelist_status(cov_list){
         ws_name = (t["ws_name"])?t["ws_name"]:"";
         link = "<a href='./ptref.html?ws_name=" + ws_name + "&coverage=" + r.region_id + "'>" + r.region_id + "</a>" + "&nbsp;";
         str+="<td>" + link + "</td>";
+        span_map = "<span id='showonmap_" + r.region_id + "' onClick='show_coverage_on_map(\""+r.region_id+"\");' class='span_link' style='display:none;'><img src='./assets/img/map_pin.png' height='20' width='13'></span>";
+        str+="<td align='center'>" + span_map + "</td>";
+        str+="<td><span style='" + DateToColor(myDate) + "'>" + r.end_production_date + " (" + dateDiff(myDate,now)+")</span></td>";
+        span_address = "<span id='address_" + r.region_id + "'></span>";
+        str+="<td align='center'>" + span_address + "</td>";
+        span_poi = "<span id='poi_" + r.region_id + "'></span>";
+        str+="<td align='center'>" + span_poi + "</td>";
         str+="<td>" + r.status+"</td>";
-        str+="<td>";
-        str+="<span style='" + DateToColor(myDate) + "'>" + r.end_production_date + " (" + dateDiff(myDate,now)+")</span>";
-        str+="</td>";
-        span = "<span id='showonmap_" + r.region_id + "' onClick='show_coverage_on_map(\""+r.region_id+"\");' class='span_link' style='display:none;'><img src='./assets/img/map_pin.png' height='20' width='13'></span>";
-        str+="<td align='center'>" + span + "</td>";
         str+="</tr>";
     }
     str+="</table>"
     document.getElementById('div_coverage').innerHTML=str;
     get_shapes_and_show_on_map();
+    get_coverage_geostatus();
 }
 
 function get_shapes_and_show_on_map(){
@@ -63,6 +71,20 @@ function get_shapes_and_show_on_map(){
         }
         show_coveragelist_on_map();
     });
+}
+
+function get_coverage_geostatus() {
+    for (c in coverages){
+        api = 'coverage/'+ coverages[c].id + '/_geo_status/';
+        callNavitiaJS(ws_name, api, '', function(response){
+            url_coverage = response.url.split("://")[1].split('/')[3];
+            console.log(url_coverage);
+            span_id = "address_" + url_coverage;
+            $("#" + span_id).html(response.geo_status.street_network_sources.toString());
+            span_id = "poi_" + url_coverage;
+            $("#" + span_id).html(response.geo_status.poi_sources.toString());
+        });
+    }
 }
 
 function coverage_onLoad() {
