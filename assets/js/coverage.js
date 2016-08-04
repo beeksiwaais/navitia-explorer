@@ -22,8 +22,13 @@ function sort_compare_coverage(cov1, cov2){
 function print_coveragelist_status(cov_list){
     selected_region=""
     var now = new Date();
-    str="<table border='1px'>";
-    str+="<tr><th>Region</th><th>Status</th><th>Production Start</th><th>Production End</th><th>Dataset Date</th><th>Publication Date</th><th>Last Load</th><th>Maps</th></tr>";
+    str = "<table border='1px'><tr>";
+    str += "<th>Region</th>";
+    str += "<th>Map</th>";
+    str += "<th>Production End</th>";
+    str += "<th>Address sources</th><th>POI sources</th>";
+    str += "<th>Status</th>";
+    str += "</tr>";
     for (var i in cov_list){
         r=cov_list[i];
         var myDate = r.end_production_date?IsoToJsDate(r.end_production_date):now;
@@ -31,21 +36,20 @@ function print_coveragelist_status(cov_list){
         ws_name = (t["ws_name"])?t["ws_name"]:"";
         link = "<a href='./ptref.html?ws_name=" + ws_name + "&coverage=" + r.region_id + "'>" + r.region_id + "</a>" + "&nbsp;";
         str+="<td>" + link + "</td>";
+        span_map = "<span id='showonmap_" + r.region_id + "' onClick='show_coverage_on_map(\""+r.region_id+"\");' class='span_link' style='display:none;'><img src='./assets/img/map_pin.png' height='20' width='13'></span>";
+        str+="<td align='center'>" + span_map + "</td>";
+        str+="<td><span style='" + DateToColor(myDate) + "'>" + r.end_production_date + " (" + dateDiff(myDate,now)+")</span></td>";
+        span_address = "<span id='address_" + r.region_id + "'></span>";
+        str+="<td align='center'>" + span_address + "</td>";
+        span_poi = "<span id='poi_" + r.region_id + "'></span>";
+        str+="<td align='center'>" + span_poi + "</td>";
         str+="<td>" + r.status+"</td>";
-        str+="<td>" + r.start_production_date+"</td>";
-        str+="<td>";
-        str+="<span style='" + DateToColor(myDate) + "'>" + r.end_production_date + " (" + dateDiff(myDate,now)+")</span>";
-        str+="</td>";
-        str+="<td>" + NavitiaDateTimeToString(r.dataset_created_at, 'yyyymmdd hh:nn') +"</td>";
-        str+="<td>" + NavitiaDateTimeToString(r.publication_date, 'yyyymmdd hh:nn') +"</td>";
-        str+="<td align='center'>" + NavitiaDateTimeToString(r.last_load_at, 'yyyymmdd hh:nn') +"</td>";
-        span = "<span id='showonmap_" + r.region_id + "' onClick='show_coverage_on_map(\""+r.region_id+"\");' class='span_link' style='display:none;'><img src='./assets/img/map_pin.png' height='20' width='13'></span>";
-        str+="<td align='center'>" + span + "</td>";
         str+="</tr>";
     }
     str+="</table>"
     document.getElementById('div_coverage').innerHTML=str;
     get_shapes_and_show_on_map();
+    get_coverage_geostatus();
 }
 
 function get_shapes_and_show_on_map(){
@@ -67,6 +71,20 @@ function get_shapes_and_show_on_map(){
         }
         show_coveragelist_on_map();
     });
+}
+
+function get_coverage_geostatus() {
+    for (c in coverages){
+        api = 'coverage/'+ coverages[c].id + '/_geo_status/';
+        callNavitiaJS(ws_name, api, '', function(response){
+            url_coverage = response.url.split("://")[1].split('/')[3];
+            console.log(url_coverage);
+            span_id = "address_" + url_coverage;
+            $("#" + span_id).html(response.geo_status.street_network_sources.toString());
+            span_id = "poi_" + url_coverage;
+            $("#" + span_id).html(response.geo_status.poi_sources.toString());
+        });
+    }
 }
 
 function coverage_onLoad() {
@@ -93,6 +111,28 @@ function focusRegion(region_id){
             map.setCenter(geojsonToGmap(r.shape)[0]);
         }
     }
+}
+
+function get_coverage_popup(coverage){
+    var now = new Date();
+    var myDate = r.end_production_date?IsoToJsDate(r.end_production_date):now;
+    str = "<table border='1'  style='font-size:12px'>";
+    str += "<tr>";
+    str += "<th>Name</th><td>" + r.region_id + "</td>";
+    str += "</tr><tr>";
+    str+="<td>status</td><td>" + r.status+"</td>";
+    str += "</tr><tr>";
+    str+="<td>ProductionDates</td><td>" + r.start_production_date+" <br> " +
+        "<span style='" + DateToColor(myDate) + "'>" + r.end_production_date + " (" + dateDiff(myDate,now)+")</span>" +"</td>";
+    str += "</tr><tr>";
+    str+="<td>Dataset Creation</td><td>" + NavitiaDateTimeToString(r.dataset_created_at, 'yyyymmdd hh:nn') +"</td>";
+    str += "</tr><tr>";
+    str+="<td>Dataset Publication</td><td>" + NavitiaDateTimeToString(r.publication_date, 'yyyymmdd hh:nn') +"</td>";
+    str += "</tr><tr>";
+    str+="<td>Last Load</td><td>" + NavitiaDateTimeToString(r.last_load_at, 'yyyymmdd hh:nn') +"</td>";
+    str += "</tr>";
+    str += "</table>";
+    return str;
 }
 
 function show_coveragelist_on_map(){
@@ -122,6 +162,7 @@ function show_coveragelist_on_map(){
                 fillColor: '#FF0000',
                 fillOpacity: 0.35
             });
+            map_poly.bindPopup(get_coverage_popup(r));
             map_polygons.push(map_poly);
             map_poly.addTo(map);
         }
@@ -157,6 +198,7 @@ function show_coverage_on_map(region_id){
                 fillColor: '#0000FF',
                 fillOpacity: 0.35
             });
+            map_poly.bindPopup(get_coverage_popup(r));
             map_polygons.push(map_poly);
             map_poly.addTo(map);
             map.fitBounds(globalBounds)
@@ -165,7 +207,7 @@ function show_coverage_on_map(region_id){
 }
 
 var selected = null;
-var infowindow = null;
+var popup = L.popup();
 var map = L.map('map').setView([51.505, -0.09], 13);
 var coverages = null;
 var map_polygons = [];
