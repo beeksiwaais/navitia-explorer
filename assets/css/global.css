@@ -42,7 +42,7 @@ ul li a:hover {
     font-weight: bold;
 }
 
-.span_link {    
+.span_link {
     color: blue;
     text-decoration:underline;
     cursor: pointer;
@@ -91,8 +91,8 @@ section.second_half {
     max-height : 500px;
     padding-left: 2px;
 }
- 
- 
+
+
 .map-canvas {
     height : 100%;
     width: 100%;
@@ -119,4 +119,23 @@ section.second_half {
 .item .title:hover { color:#BAB431; }
 .item .active {
 background-color:#f8f8f8;
+}
+div.scrollable {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    background-color: transparent;
+}
+.table td, .table th {
+    padding: 5px;
+    border-top: 1px solid #eceeef;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
 }
