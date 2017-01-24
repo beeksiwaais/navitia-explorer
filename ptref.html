@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="./assets/leaflet_0.7.7/leaflet.css" />
     <link rel="stylesheet" href="./assets/jquery-ui.js_1.11.4/jquery-ui.css" />
 </head>
-<body onload="ptref_onLoad();">
+<body onload="ptref_onLoad(); includeHTML();">
     <header>
         <div id="params_div"></div>
         <form name="form">
@@ -38,11 +38,7 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <a title="Kisio Digital" href="http://www.canaltp.fr/" target="_blank"><img src='./assets/img/kisiodigital_logo.png'></a>
-        <a title="navitia-explorer on github" href="https://github.com/canaltp/navitia-explorer" target="_blank"><img src='./assets/img/github_logo.png'></a>
-        <a title="Navitia.io" href="http://www.navitia.io/" target="_blank"><img src='./assets/img/navitiaio_logo.png'></a>
-    </footer>
+    <footer include-html="footer.html" class="footer"></footer>
 
     <script type="text/javascript" src="./assets/jquery/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="./assets/jquery-ui.js_1.11.4/jquery-ui.js"></script>
@@ -51,5 +47,6 @@
     <script type="text/javascript" src="./assets/js/lib.js"></script>
     <script type="text/javascript" src="./assets/js/conversion.js"></script>
     <script type="text/javascript" src="./assets/js/ptref.js"></script>
+    <script type="text/javascript" src="./assets/js/include_html.js"></script>
 </body>
 </html>
