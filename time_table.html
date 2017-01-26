@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="./assets/css/global.css" />
     <link rel="stylesheet" href="./assets/leaflet_0.7.7/leaflet.css" />
 </head>
-<body onload="time_table_onLoad();">
+<body onload="time_table_onLoad(); includeHTML();">
     <div id="params_div"></div>
         <form name="form">
             <div id="menu_div"></div>
@@ -32,16 +32,15 @@
             </tr>
         </table>
     </div>
-    <div id="footer" class="footer">
-        github: <a href="https://github.com/canaltp/navitia-explorer">canaltp/navitia-explorer</a><br/>            
-        <a href="http://www.navitia.io/"><img src='./assets/img/Navitia_logo.png'></a>
-        <a href="http://www.canaltp.fr/"><img src='./assets/img/canaltp_logo.png' ></a>
-    </div>    
+
+    <footer include-html="footer.html" class="footer"></footer>
+
     <script type="text/javascript" src="./assets/jquery/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="./assets/leaflet_0.7.7/leaflet.js"></script>
     <script type="text/javascript" src="./assets/js/menu.js"></script>
     <script type="text/javascript" src="./assets/js/lib.js"></script>
     <script type="text/javascript" src="./assets/js/conversion.js"></script>
     <script type="text/javascript" src="./assets/js/time_table.js"></script>
+    <script type="text/javascript" src="./assets/js/include_html.js"></script>
 </body>
 </html>

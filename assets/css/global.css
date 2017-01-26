@@ -59,10 +59,25 @@ ul li a:hover {
     border-width:1px;
 }
 
-.footer{
-    text-align : center;
-    font-size: 14px;
+footer{
+    height:60px;
+    padding-top: 60px;
 }
+footer img{
+    max-height : 40px;
+    margin-top:10px;
+}
+footer a{
+    display: block;
+    float: left;
+    height: 60px;
+    width: 120px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 3em;
+    border-right: 1px dotted silver;
+}
+
 h2{
     text-align : center;
     font-size: 14px;
