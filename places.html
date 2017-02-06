@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="./assets/css/global.css" />
     <link rel="stylesheet" type="text/css" href="./assets/leaflet_0.7.7/leaflet.css" />
 </head>
-<body onload="places_onLoad()">
+<body onload="places_onLoad(); includeHTML();">
     <div id="params_div"></div>
     <form name="form">
         <div id="menu_div">
@@ -13,34 +13,47 @@
             <div id="menu_cov"><input type="hidden" id="coverage" name="coverage" value=""/></div>
         </div>
         <div id="content">
-            <h1>Places : recherche d'objet sur la région</h1>
+            <h1>places / pt_objects : recherche d'objet sur la région</h1>
             <input type="text" id="q" name="q"> </input><input type="button" value="GO" onclick="document.forms[0].submit()"> </input>
             <div id="q_filter">
+                places :
                 <input type="hidden" id="distance_reference" name="distance_reference" value="">
                 <input type="checkbox" id="administrative_region" name="administrative_region" >Sur les communes
                 <input type="checkbox" id="stop_area" name="stop_area">Sur les zones d'arrêts
                 <input type="checkbox" id="poi" name="poi" >Sur les POI
                 <input type="checkbox" id="address" name="address" >Sur les adresses
-                <input type="checkbox" id="stop_point" name="stop_point" >Sur les points d'arrêts
+                <input type="checkbox" id="stop_point" name="stop_point" >Sur les points d'arrêts<br>
+
+                pt_objects : 
+                <input type="checkbox" id="pt_network" name="pt_network" >Sur les réseaux
+                <input type="checkbox" id="pt_commercial_mode" name="pt_commercial_mode" >Sur les modes
+                <input type="checkbox" id="pt_stop_area" name="pt_stop_area">Sur les zones d'arrêts
+                <input type="checkbox" id="pt_line" name="pt_line">Sur les lignes
+                <input type="checkbox" id="pt_route" name="pt_route">Sur les parcours
+
             </div>
             <table style="width:100%; height:400px">
                 <tr>
-                    <td width="50%" valign="top"><div id="places"></div></td>
+                    <td width="50%" valign="top">
+                        <h4>Réponse de l'API places</h4>
+                        <div id="places"></div>
+                        <h4>Réponse de l'API pt_objects</h4>
+                        <div id="pt_objects"></div>
+                    </td>
                     <td><div id="map" style="height: 100%"></div></td>
                 </tr>
             </table>
         </div>
     </form>
-    <div id="footer" class="footer">
-        github: <a href="https://github.com/canaltp/navitia-explorer">canaltp/navitia-explorer</a><br/>            
-        <a href="http://www.navitia.io/"><img src='./assets/img/Navitia_logo.png'></a>
-        <a href="http://www.canaltp.fr/"><img src='./assets/img/canaltp_logo.png' ></a>
-    </div>    
+
+    <footer include-html="footer.html" class="footer"></footer>
+
     <script type="text/javascript" src="./assets/jquery/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="./assets/leaflet_0.7.7/leaflet.js"></script>
     <script type="text/javascript" src="./assets/js/menu.js"></script>
     <script type="text/javascript" src="./assets/js/lib.js"></script>
     <script type="text/javascript" src="./assets/js/conversion.js"></script>
     <script type="text/javascript" src="./assets/js/places.js"></script>
+    <script type="text/javascript" src="./assets/js/include_html.js"></script>
 </body>
 </html>

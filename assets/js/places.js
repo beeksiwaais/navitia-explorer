@@ -9,6 +9,12 @@ function places_onLoad() {
     if (t["poi"]=="on"){document.getElementById("poi").checked="true";}
     if (t["stop_point"]=="on"){document.getElementById("stop_point").checked="true";}
 
+    if (t["pt_network"]=="on"){document.getElementById("pt_network").checked="true";}
+    if (t["pt_commercial_mode"]=="on"){document.getElementById("pt_commercial_mode").checked="true";}
+    if (t["pt_stop_area"]=="on"){document.getElementById("pt_stop_area").checked="true";}
+    if (t["pt_line"]=="on"){document.getElementById("pt_line").checked="true";}
+    if (t["pt_route"]=="on"){document.getElementById("pt_route").checked="true";}
+
     document.getElementById("distance_reference").value=(t["distance_reference"])?t["distance_reference"]:"";
     if (document.getElementById("q").value != "") {
         doSearch();
@@ -49,6 +55,11 @@ function onMapClick(e) {
 }
 
 function doSearch(){
+    doSearch_places();
+    doSearch_pt_objects();
+}
+
+function doSearch_places(){
     url="coverage/"+document.getElementById("coverage").value+"/places?q="+document.getElementById('q').value;
     if (document.getElementById('administrative_region').checked) {
         url+= encodeURI("&type[]=administrative_region");
@@ -66,6 +77,52 @@ function doSearch(){
         url+= encodeURI("&type[]=address");
     }
     callNavitiaJS(document.getElementById("ws_name").value, url, '', showPlaces);
+}
+
+function doSearch_pt_objects(){
+    url="coverage/"+document.getElementById("coverage").value+"/pt_objects?q="+document.getElementById('q').value;
+    if (document.getElementById('pt_network').checked) {
+        url+= encodeURI("&type[]=network");
+    }
+    if (document.getElementById('pt_commercial_mode').checked) {
+        url+= encodeURI("&type[]=commercial_mode");
+    }
+    if (document.getElementById('pt_stop_area').checked) {
+        url+= encodeURI("&type[]=stop_area");
+    }
+    if (document.getElementById('pt_line').checked) {
+        url+= encodeURI("&type[]=line");
+    }
+    if (document.getElementById('pt_route').checked) {
+        url+= encodeURI("&type[]=route");
+    }
+    callNavitiaJS(document.getElementById("ws_name").value, url, '', showPtobjects);
+}
+
+function showPtobjects(response){
+    str="";
+    if (response){
+        places=response.places;
+        var str="<table border='1'>";
+        str+= "<tr>"
+        str+= "<th>Type</th>"
+        str+= "<th>Name</th>"
+        str+= "<th>Quality</th>"
+        str+= "<th>Liens</th>"
+        str+= "</tr>"
+        for (var i in response.pt_objects) {
+
+            str+= "<tr>"
+            var ptobj = response.pt_objects[i];
+            str+= "<td>"+ptobj.embedded_type+"</td>";
+            str+= "<td>"+ptobj.name+"</td>";
+            str+= "<td>"+ptobj.quality+"</td>";
+            str+= "<td><a href='ptref.html?"+"&ws_name="+document.getElementById("ws_name").value+
+                "&coverage="+document.getElementById("coverage").value+"&uri=/"+ptobj.embedded_type+"s/"+ptobj.id + "/'>Explorer</a></td>";
+        }
+        str+="</table>";
+    }
+    document.getElementById('pt_objects').innerHTML = str;
 }
 
 function showPlaces(response){

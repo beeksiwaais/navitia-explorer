@@ -7,13 +7,13 @@ ptref = function() {
     this.response = null,
     this.load = function(ws_name, coverage, uri, call_back){
         if (endsWith(uri, "/departures/")) {
-            navitia_call="coverage/"+coverage+uri+"?count=20";
+            navitia_call="coverage/"+coverage+uri+"&count=20";
             this.object_type = "departures";
         } else if (endsWith(uri, "/places_nearby/")) {
-            navitia_call="coverage/"+coverage+uri+"?count=100";
+            navitia_call="coverage/"+coverage+uri+"&count=100";
             this.object_type = "places_nearby";
         } else {
-            navitia_call="coverage/"+coverage+uri+"?count=1000";
+            navitia_call="coverage/"+coverage+uri+"&count=1000";
             nav_params = uri.split("/");
             for (i = nav_params.length-1; i >=0; i--) {
                 nav_param = nav_params[i];
@@ -801,7 +801,7 @@ function showObjectHtml(ptref){
 }
 
 function showAriane(uri){
-    var res= uri.split("/");
+    var res= uri.split("?")[0].split("/");
     base_uri="/";
     ariane="";
     object_type = "";
@@ -833,6 +833,11 @@ function ptref_onLoad(){
         document.getElementById("uri").value="/networks/";
         document.forms[0].submit();
     }
+    uri += "?"; //ajout d'un ? systématique pour l'ajout du paramètre &count=X après
+    if (t["f"]) {
+        uri += "filter=" + t["f"] + "&";
+    }
+    
     var object_type = showAriane(uri);
 
     //on crée les éléments complémentaires du formulaire si besoin

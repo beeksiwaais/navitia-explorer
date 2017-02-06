@@ -1,10 +1,3 @@
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("LatLon : " + e.latlng.lat + ", "+e.latlng.lng)
-        .openOn(map);
-}
-
 function init_date(sdate, sheure){
     r_date=""
     d= new Date()
@@ -58,7 +51,7 @@ function getLineSelect(){
     if (t["network_id"]) {
         first_id = "";
         selected_exists = false;
-        callNavitiaJS(ws_name, 'coverage/'+t["coverage"]+'/networks/'+t["network_id"]+'/lines/?count=1000', '', 
+        callNavitiaJS(ws_name, 'coverage/'+t["coverage"]+'/networks/'+t["network_id"]+'/lines/?count=1000', '',
             function(response){
                 var str="<select name='line_id' id='line_id' onchange='document.forms[0].submit()'>"
                 for (var n in response.lines) {
@@ -87,7 +80,7 @@ function getRouteSelect(){
     if (t["line_id"]) {
         first_id = ""
         selected_exists = false;
-        callNavitiaJS(ws_name, 'coverage/'+t["coverage"]+'/networks/'+t["network_id"]+'/lines/' + t["line_id"] + '/routes/?count=1000', '', 
+        callNavitiaJS(ws_name, 'coverage/'+t["coverage"]+'/networks/'+t["network_id"]+'/lines/' + t["line_id"] + '/routes/?count=1000', '',
             function(response){
                 var str="<select name='route_id' id='route_id' onchange='document.forms[0].submit()'>"
                 for (var n in response.routes) {
@@ -115,7 +108,7 @@ function getRouteSelect(){
 function getRouteSchedule(){
     url="coverage/"+coverage+"/routes/"+t["route_id"]+"/route_schedules/";
     url+="?from_datetime=" + natural_str_to_iso(
-        document.getElementById("date").value, 
+        document.getElementById("date").value,
         document.getElementById("heure").value);
     callNavitiaJS(ws_name, url, '', function(response){
         if (response.route_schedules) {
@@ -124,9 +117,9 @@ function getRouteSchedule(){
         }
     });
 }
-    
+
 function show_schedule_html(){
-    str="<table border='1px' style='font-size:10px;>";
+    str="<table class='table table-striped' style='font-size:10px;>";
     str+="<thead>";
     str+="<tr><td>&nbsp;</td>";
     for (var i in schedule.table.headers){
@@ -148,7 +141,7 @@ function show_schedule_html(){
     for (var i in schedule.table.rows){
         row=schedule.table.rows[i];
         str+="<tr>";
-        str+="<td>"+row.stop_point.label.replace(/ /g, "&nbsp;")+"</td>";
+        str+="<td style='font-weight:bold;'>"+row.stop_point.label.replace(/ /g, "&nbsp;")+"</td>";
         for (var j in row.date_times){
             dt=row.date_times[j];
             if (dt.date_time) {
@@ -175,19 +168,8 @@ function route_schedule_onLoad(){
     if (t["heure"]) { document.getElementById("heure").value=decodeURIComponent(t["heure"]);}
 
     getNetworkSelect();
-
-    map = L.map('map-canvas').setView([48.837212, 2.413], 8);
-    // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    map.on('click', onMapClick);
-
 }
 
 var selected = null;
-var map;
-var popup = L.popup();
 var t;
 var schedule;
-
