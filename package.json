@@ -1,0 +1,23 @@
+{
+  "name": "navitia-explorer",
+  "version": "1.0.0",
+  "description": "Navitia Explorer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beeksiwaais/navitia-explorer.git"
+  },
+  "author": "Canal TP Team, Beeksi Waais",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beeksiwaais/navitia-explorer/issues"
+  },
+  "homepage": "https://github.com/beeksiwaais/navitia-explorer#readme",
+  "dependencies": {
+    "bower": "^1.8.0",
+    "gulp": "^3.9.1"
+  }
+}
