@@ -19,5 +19,8 @@
   "dependencies": {
     "bower": "^1.8.0",
     "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp-htmlmin": "^3.0.0"
   }
 }
